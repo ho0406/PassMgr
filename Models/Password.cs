@@ -20,14 +20,19 @@ namespace PassMgr.Models
         [Key]
         public int Id { get; set; }
 
-        public string Domain {get; set;}
 
-        public string Ip {get; set;}
+        [Required]
+        public string Ip {get; set; }
 
+        public string Domain { get; set; }
+
+        [Required]
         public string Service { get; set; }
 
+        [Required]
         public string User { get; set; }
 
+        [Required]
         public string Passwd { get; set; }
 
         public string Url {get; set;}

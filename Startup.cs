@@ -36,7 +36,7 @@ namespace PassMgr
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Password/Error");
             }
 
             app.UseStaticFiles();
@@ -45,7 +45,7 @@ namespace PassMgr
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Password}/{action=Index}/{id?}");
             });
         }
     }

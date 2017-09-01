@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Password>;
+
+@{
+    ViewData["Title"] = "Password Manager";
+}
+<h1>
+    Password Manager
+</h1>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.LabelFor(m => m.First().Id)</th>
+                <th>@Html.LabelFor(m => m.First().Ip)</th>
+                <th>@Html.LabelFor(m => m.First().Domain)</th>
+                <th>@Html.LabelFor(m => m.First().Service)</th>
+                <th>@Html.LabelFor(m => m.First().User)</th>
+                <th>@Html.LabelFor(m => m.First().Passwd)</th>
+                <th>@Html.LabelFor(m => m.First().Url)</th>
+                <th></th>
+            </tr>
+            @{ var pwd = new Password();
+                using (Html.BeginForm("Create", "Password", FormMethod.Post))
+                {
+                    <tr>
+                        <td></td>
+                        <td>
+                            @Html.EditorFor(m => pwd.Ip, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => pwd.Ip, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.EditorFor(m => pwd.Domain, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => pwd.Domain, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.EditorFor(m => pwd.Service, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => pwd.Service, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.EditorFor(m => pwd.User, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => pwd.User, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.EditorFor(m => pwd.Passwd, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => pwd.Passwd, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.EditorFor(m => pwd.Url, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => pwd.Url, "", new { @class = "text-danger" })
+                        </td>
+                        <td><input type="submit" class="btn btn-primary" value="save" /></td>
+                    </tr>
+                }
+            }
+
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(m => item.Id)</td>
+                    <td>@Html.DisplayFor(m => item.Ip)</td>
+                    <td>@Html.DisplayFor(m => item.Domain)</td>
+                    <td>@Html.DisplayFor(m => item.Service)</td>
+                    <td>@Html.DisplayFor(m => item.User)</td>
+                    <td>@Html.DisplayFor(m => item.Passwd)</td>
+                    <th>@Html.DisplayFor(m => item.Url)</th>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
