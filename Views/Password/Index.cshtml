@@ -6,68 +6,111 @@
 <h1>
     Password Manager
 </h1>
+<div class="row">
+
+    <div class="col-md-6 text-right pull-right">
+        <a href="#createForm" data-toggle="collapse">Add Password <span class="caret"></span></a>
+    </div>
+    <div id="createForm" class="form-horizontal col-md-6 collapse">
+        @{
+            Password model = new Password();
+        }
+        @Html.EditorFor(m => model)
+    </div>
+</div>
+@Html.ValidationSummary()
 <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
-                <th>@Html.LabelFor(m => m.First().Id)</th>
                 <th>@Html.LabelFor(m => m.First().Ip)</th>
-                <th>@Html.LabelFor(m => m.First().Domain)</th>
                 <th>@Html.LabelFor(m => m.First().Service)</th>
-                <th>@Html.LabelFor(m => m.First().User)</th>
-                <th>@Html.LabelFor(m => m.First().Passwd)</th>
-                <th>@Html.LabelFor(m => m.First().Url)</th>
+                <th>@Html.LabelFor(m => m.First().Domain)</th>
+                <th></th>
+                <th></th>
                 <th></th>
             </tr>
             @{ var pwd = new Password();
-                using (Html.BeginForm("Create", "Password", FormMethod.Post))
+                using (Html.BeginForm("Index", "Password", FormMethod.Post))
                 {
                     <tr>
-                        <td></td>
                         <td>
                             @Html.EditorFor(m => pwd.Ip, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(m => pwd.Ip, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(m => pwd.Domain, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(m => pwd.Domain, "", new { @class = "text-danger" })
                         </td>
                         <td>
                             @Html.EditorFor(m => pwd.Service, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(m => pwd.Service, "", new { @class = "text-danger" })
                         </td>
                         <td>
-                            @Html.EditorFor(m => pwd.User, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(m => pwd.User, "", new { @class = "text-danger" })
+                            @Html.EditorFor(m => pwd.Domain, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => pwd.Domain, "", new { @class = "text-danger" })
                         </td>
-                        <td>
-                            @Html.EditorFor(m => pwd.Passwd, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(m => pwd.Passwd, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.EditorFor(m => pwd.Url, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(m => pwd.Url, "", new { @class = "text-danger" })
-                        </td>
-                        <td><input type="submit" class="btn btn-primary" value="save" /></td>
+                        <td></td>
+                        <td><input type="submit" class="btn btn-default" value="search" /></td>
+                        <td></td>
                     </tr>
                 }
             }
+            <tr class="text-center">
+                <th>@Html.LabelFor(m => m.First().Id)</th>
+                <th>@Html.LabelFor(m => m.First().Domain)</th>
+                <th>@Html.LabelFor(m => m.First().User)</th>
+                <th>@Html.LabelFor(m => m.First().Passwd)</th>
+                <th>@Html.LabelFor(m => m.First().Url)</th>
+                <th></th>
+            </tr>
 
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(m => item.Id)</td>
-                    <td>@Html.DisplayFor(m => item.Ip)</td>
-                    <td>@Html.DisplayFor(m => item.Domain)</td>
-                    <td>@Html.DisplayFor(m => item.Service)</td>
-                    <td>@Html.DisplayFor(m => item.User)</td>
-                    <td>@Html.DisplayFor(m => item.Passwd)</td>
-                    <th>@Html.DisplayFor(m => item.Url)</th>
+    @{ 
+    Password preItem = null;
+    int i = 0;
+    foreach (var item in Model)
+    {
+        if (preItem?.Ip != item.Ip ||  preItem?.Service != item.Service)
+        {
+            <tr class="category">
+                @if (preItem?.Ip != item.Ip){
+                    <td><a href="@Url.Action("index", "Password", new { Ip = item.Ip })">@Html.DisplayFor(m => item.Ip)</a></td>
+                } else
+                {
                     <td></td>
-                </tr>
+                }
+                <td colspan="5">
+                    <a href="@Url.Action("index", "Password", new { Ip = item.Service })">@Html.DisplayFor(m => item.Service)</a>
+                </td>
+            </tr>
             }
+        <tr class="text-center @(i++%2==1?"odd":"even")">
+            <td>@Html.DisplayFor(m => item.Id)</td>
+            <td><a href="@Url.Action("index", "Password", new { Ip = item.Domain })">@Html.DisplayFor(m => item.Domain)</a></td>
+            <td>@Html.DisplayFor(m => item.User)</td>
+            <td>@Html.DisplayFor(m => item.Passwd)</td>
+            <td ><a href="@item.Url">@Html.DisplayFor(m => item.Url)</a></td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Password", new { id = item.Id })
+                |
+                @Html.ActionLink("Copy", "Create", "Password", new { id = item.Id })
+                |
+                @Html.ActionLink("Remove", "Remove", "Password", new { id = item.Id })
+            </td>
+        </tr>
+                preItem = item;
+            }
+        }
         </tbody>
     </table>
 </div>
+<style>
+    .category {
+        background-color: #EEE;
+        font-weight: bold;
+    }
+    .odd {
+        background-color: azure;
+    }
+    .text-center th {
+        text-align: center;
+    }
+</style>
